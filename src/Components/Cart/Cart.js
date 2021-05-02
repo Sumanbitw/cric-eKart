@@ -7,7 +7,7 @@ import cart from "../../Images/cart.svg"
 
 function ShowCart({item}){
     const { itemsInCart,setItemsInCart,wishList,setWishList} = useCart()
-    
+    //increase
     function increaseItemQuantity(items){
         console.log({items})
         setItemsInCart( itemsInCart.map(currItems => {
