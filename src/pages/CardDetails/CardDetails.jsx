@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router'
 import { useCart } from '../../context/cartContext'
 import Loader from "react-loader-spinner"
+import { AiOutlineHeart } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import "./cardDetails.css"
 
@@ -13,6 +14,7 @@ function CardDetails() {
     const [image, setImage] = useState("0")
     const [isAdded, setIsAdded] = useState(true)
     const {itemsInCart, setItemsInCart} = useCart()
+    const { wishList, setWishList } = useCart()
     
     function addToCart(productDetails){
         console.log({productDetails})
@@ -32,7 +34,22 @@ function CardDetails() {
             setItemsInCart([...itemsInCart,{productDetails,quantity:1}])
         }
     }
-
+    function addToWishList(productDetails){
+        let inCart = false
+        setWishList(wishList.map(currItem => {
+            if(currItem.id===productDetails._id){
+                inCart = true
+                return { 
+                    ...currItem,
+                    quantity: currItem.quantity + 1
+                }
+            }
+            return currItem
+        }))
+        if(!inCart){
+            setWishList([...wishList,{productDetails,quantity:1}])
+        }
+    }
     const { id } = useParams()
     console.log(id)
     useEffect(() => {
@@ -64,12 +81,26 @@ function CardDetails() {
           /> ) : (
         <div className="cardDetails">
             <div className="cardDetails__left">
-                <div className="cdDetails__image"><img src={productDetails && productDetails.imageURL[image]} className="cd__img"/></div>
+                <div className="cdDetails__image"><img src={productDetails && productDetails.imageURL[image]} className="cd__img"/>
+                <div className="wishList__icon"><AiOutlineHeart size={30} onClick={()=> addToWishList(productDetails)}/>
+                </div>
+                </div>
                 <div className="cardDetails__img" >{productDetails && productDetails.imageURL.map((item,id) => (
                     <ul>
                         <img src = {item} className="img" onClick={() => handleClick(id)}/>
                     </ul>
                 ))}
+                </div>
+            </div>
+            <div className="cardDetails__right">
+                <p className="cardDetails__title">{productDetails && productDetails.title}</p> 
+                 <div className="cardDetails__details">{productDetails && productDetails.details.map(item => (
+                         <p>{item}</p>
+                 ))}</div>
+                <div className="cd__details">
+                <p className="cardDetails__price">Price :  ₹ {productDetails && productDetails.price} </p> 
+                <p className="cardDetails__price discount"> {productDetails && productDetails.discount}% </p> 
+                <p className="cardDetails__price netprice"> ₹ {productDetails && productDetails.netPrice} </p> 
                 </div>
                 { isAdded ? 
                 <button 
@@ -85,17 +116,6 @@ function CardDetails() {
                     Go to Cart </i>
                     </button>
                     </Link>}
-            </div>
-            <div className="cardDetails__right">
-                <p className="cardDetails__title">{productDetails && productDetails.title}</p> 
-                 <div className="cardDetails__details">{productDetails && productDetails.details.map(item => (
-                         <p>{item}</p>
-                 ))}</div>
-                <div className="cd__details">
-                <p className="cardDetails__price">Price :  ₹ {productDetails && productDetails.price} </p> 
-                <p className="cardDetails__price discount"> {productDetails && productDetails.discount}% </p> 
-                <p className="cardDetails__price netprice"> ₹ {productDetails && productDetails.netPrice} </p> 
-                </div>
             </div>
         </div>
     )

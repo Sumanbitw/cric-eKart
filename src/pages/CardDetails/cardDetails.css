@@ -16,13 +16,27 @@
     padding-right: 1rem;
     margin: 1rem;
 }
+.cdDetails__image{
+    position: relative;
+}
+.wishList__icon{
+    position: absolute; 
+    top: 0.1rem;
+    padding: 0.1em;
+    width: 2rem;
+    height: 2rem;
+    right: 0;
+    color: white;
+    background-color: var(--bg-green);
+    border-radius: 100%;
+}
 .cardDetails__left img{
     max-width: 100%;
     min-height: 100%;
 }
 .cardDetails__right{
     width: 60%; 
-    margin: 6rem; 
+    /* margin: 6rem;  */
 }
 .cdDetails__img{
     margin: 1rem 0;
@@ -92,9 +106,11 @@
         flex-wrap: wrap;
         flex-direction: column;
     }
-
+    .cardDetails__img{
+        width: 10rem;
+    }
     .cardDetails__img ul{
-        /* padding: 2rem; */
+        padding: 0;
         width: 10rem;
     }
     .cardDetails__img img{
