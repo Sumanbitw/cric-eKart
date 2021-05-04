@@ -13,6 +13,7 @@ export default function Modal({showModal, close,item}) {
            <div className ={showModal ? "show__modal" : "hide__modal"}>
            <p>Do you want to remove the item ? </p>
            <button onClick={() => removeItemsFromWishList(item)}>Remove</button>
+           <button onClick={close}>Cancel</button>
             </div> 
 
         </div>

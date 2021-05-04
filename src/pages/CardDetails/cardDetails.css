@@ -7,7 +7,7 @@
 .cardDetails {
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     width: 100%;
 }
 
@@ -36,7 +36,7 @@
 }
 .cardDetails__right{
     width: 60%; 
-    /* margin: 6rem;  */
+    margin-top: 6rem;
 }
 .cdDetails__img{
     margin: 1rem 0;

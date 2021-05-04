@@ -5,6 +5,8 @@ import { useCart } from '../../context/cartContext'
 import Loader from "react-loader-spinner"
 import { AiOutlineHeart } from "react-icons/ai"
 import { Link } from "react-router-dom"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import "./cardDetails.css"
 
 
@@ -18,6 +20,7 @@ function CardDetails() {
     
     function addToCart(productDetails){
         console.log({productDetails})
+        toast("Added to cart",{type : "info"})
         let inCart = false;
         setIsAdded(prev => !prev)
         setItemsInCart(itemsInCart.map(currItems => {
@@ -35,16 +38,19 @@ function CardDetails() {
         }
     }
     function addToWishList(productDetails){
+        toast("Added to wishlist", { type: "info"})
         let inCart = false
         setWishList(wishList.map(currItem => {
             if(currItem.id===productDetails._id){
                 inCart = true
-                return { 
-                    ...currItem,
-                    quantity: currItem.quantity + 1
-                }
+                toast("Already marked", {type : "warning"})
+            //     return { 
+            //         ...currItem,
+            //         quantity: currItem.quantity + 1
+            //     }
+
             }
-            return currItem
+            // return currItem
         }))
         if(!inCart){
             setWishList([...wishList,{productDetails,quantity:1}])
@@ -83,6 +89,7 @@ function CardDetails() {
             <div className="cardDetails__left">
                 <div className="cdDetails__image"><img src={productDetails && productDetails.imageURL[image]} className="cd__img"/>
                 <div className="wishList__icon"><AiOutlineHeart size={30} onClick={()=> addToWishList(productDetails)}/>
+                <ToastContainer/>
                 </div>
                 </div>
                 <div className="cardDetails__img" >{productDetails && productDetails.imageURL.map((item,id) => (
@@ -115,6 +122,7 @@ function CardDetails() {
                     <i className="fa fa-shopping-cart"> 
                     Go to Cart </i>
                     </button>
+                    <ToastContainer/>
                     </Link>}
             </div>
         </div>
