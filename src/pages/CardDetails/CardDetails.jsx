@@ -53,17 +53,18 @@ function CardDetails() {
       }
 
     return (
+        <>
+        {loading ? ( <Loader
+            type="ThreeDots"
+            color="#2563EB"
+            height={100}
+            width={100}
+            timeout={3000} 
+            style={{margin : "0 20rem"}}
+          /> ) : (
         <div className="cardDetails">
-            {loading && <Loader
-                type="ThreeDots"
-                color="#2563EB"
-                height={100}
-                width={100}
-                timeout={3000} 
-                style={{margin : "0 20rem"}}
-              />}
             <div className="cardDetails__left">
-                <img src={productDetails && productDetails.imageURL[image]} className="cd__img"/>
+                <div className="cdDetails__image"><img src={productDetails && productDetails.imageURL[image]} className="cd__img"/></div>
                 <div className="cardDetails__img" >{productDetails && productDetails.imageURL.map((item,id) => (
                     <ul>
                         <img src = {item} className="img" onClick={() => handleClick(id)}/>
@@ -88,14 +89,18 @@ function CardDetails() {
             <div className="cardDetails__right">
                 <p className="cardDetails__title">{productDetails && productDetails.title}</p> 
                  <div className="cardDetails__details">{productDetails && productDetails.details.map(item => (
-                     <ul>
-                         <li>{item}</li>
-                     </ul>
+                         <p>{item}</p>
                  ))}</div>
-                
-                <p className="cardDetails__price">  {productDetails && productDetails.price} </p> 
+                <div className="cd__details">
+                <p className="cardDetails__price">Price :  ₹ {productDetails && productDetails.price} </p> 
+                <p className="cardDetails__price discount"> {productDetails && productDetails.discount}% </p> 
+                <p className="cardDetails__price netprice"> ₹ {productDetails && productDetails.netPrice} </p> 
+                </div>
             </div>
         </div>
+    )
+}
+        </>
     )
 }
 

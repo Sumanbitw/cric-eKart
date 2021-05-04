@@ -12,9 +12,9 @@
     --bg-green:#2563EB;
 }
 .card__container{
-    border: 1px solid grey;
-    width: 15rem;
-    height: auto;
+    /* border: 1px solid grey; */
+    width: 13rem;
+    /* height: auto; */
     margin: 0.5rem 0.2rem;
     font-family: monospace sans-serif;
     display: flex;
@@ -24,7 +24,7 @@
     flex-grow: 5;
     position: relative;
     border-radius: 10px;
-    box-shadow: rgb(134, 128, 128,0.5);
+    box-shadow: 5px 5px 5px 2px #606266
 }
 
 .card__image>img{
@@ -35,7 +35,7 @@
 
 .card__details{
     /* position: relative; */
-    padding: 1rem 0;
+    /* padding: 1rem 0; */
     line-height: 1.2;
 }
 
@@ -67,8 +67,8 @@
 
 .name{
     font-family: monospace sans-serif;
-    font-size: 17px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .btn {
@@ -88,7 +88,7 @@ font-family: monospace sans-serif;
 
 @media screen and (max-width:720px){
     .card__container{
-        width: 13rem;
+        width: 11rem;
         margin: 0;
         /* padding: 0 0.4rem; */
         /* flex-grow: 2; */
