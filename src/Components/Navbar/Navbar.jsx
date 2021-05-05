@@ -7,7 +7,7 @@ import { AiOutlineHeart } from "react-icons/ai"
 import "./navbar.css"
 
 export default function Navbar (){
-    const { itemsInCart,wishList} = useCart()
+    const { itemsInCart,wishlist} = useCart()
     return (
 
         <header>
@@ -21,7 +21,7 @@ export default function Navbar (){
                 
               <Link to="/cart" style={{textDecoration:"none"}}><li><AiOutlineShoppingCart size={30} cursor="pointer" color="#2563EB"/><span className="cart__icon">{itemsInCart.length}</span></li></Link>
               <Link to="/login" style={{textDecoration:"none"}}><li><BiUserCircle size={30} cursor="pointer" color="#2563EB"/><span className="cart__icon"></span></li></Link>
-              <Link to="/wishlist" style={{textDecoration:"none"}}><li><AiOutlineHeart size={30} cursor="pointer" color="#2563EB"/><span className="cart__icon">{wishList.length}</span></li></Link> 
+              <Link to="/wishlist" style={{textDecoration:"none"}}><li><AiOutlineHeart size={30} cursor="pointer" color="#2563EB"/><span className="cart__icon">{wishlist.length}</span></li></Link> 
               </ul>  
           </nav>
         </header>  

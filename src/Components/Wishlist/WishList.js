@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useCart } from '../../context/cartContext'
 import Modal from "../../pages/Modal/Modal"
-import wishlist from "../../Images/wishlist.svg"
+// import Wishlist from "../../Images/Wishlist.svg"
+import axios from "axios"
 import "./wishlist.css"
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -9,8 +10,11 @@ import 'react-toastify/dist/ReactToastify.css'
 
 function ShowWishList({item}){
     const [showModal, setShowModal] = useState(false)
-    console.log({item})
     const { itemsInCart, setItemsInCart } = useCart()
+    const {wishlist, setWishlist} = useCart()
+    console.log({item})
+
+
 function addToCart(items) {
     toast("Added to Cart", {type : "info"})
     let inCart = false
@@ -56,12 +60,46 @@ const close = () => setShowModal(false)
     )
 }
 function WishList() {
-    const {wishList} = useCart()
+    const { wishlist } = useCart()
+    const { setWishlist} = useCart()
+
+    useEffect(() => {
+        try {
+          (async function getItems() {
+          //   setLoading(true);
+            const res = await axios.get(
+              "https://evening-woodland-75481.herokuapp.com/wishlist",
+            );
+            console.log(res);
+          //   setLoading(false);
+            res.data.wishlist && setWishlist(res.data.wishlist);
+          })();
+        } catch (err) {
+          // setLoading(false);
+          console.log(err);
+        }
+    }, []);
+    useEffect(async () => {
+        try {
+          (async function postItems() {
+            const response = await axios.post(
+              "https://evening-woodland-75481.herokuapp.com/wishlist",
+              {
+                wishlist: wishlist,
+              },
+            );
+            console.log("wishlist", response.data.wishlist);
+            localStorage.setItem("wishlist", JSON.stringify(response.data.wishlist));
+          })();
+        } catch (err) {
+          console.log(err);
+        }
+    }, [wishlist]);
     return (
         <div className="whishlist">
-        {(wishList.length) === 0 ? <div className="wishlist__items wishlist"><img src={wishlist} alt=""/><p style={{fontSize:"15px",margin:"1rem",color:"grey"}}>WishList is Empty</p></div> : <p style={{fontSize:"25px",margin:"1rem"}}>Wishlist : ({wishList.length})  </p>}
+        {(wishlist.length) === 0 ? <div className="wishlist__items wishlist"><p style={{fontSize:"15px",margin:"1rem",color:"grey"}}>WishList is Empty</p></div> : <p style={{fontSize:"25px",margin:"1rem"}}>Wishlist : ({wishlist.length})  </p>}
             <div className="wishlist__container " >
-            {wishList.map(item => (
+            {wishlist.map(item => (
                 <ul>
                     <ShowWishList item={item}/>
                 </ul>

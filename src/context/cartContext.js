@@ -5,7 +5,7 @@ export const CartContext = createContext()
 
 export function CartProvider({children}){
     const [itemsInCart , setItemsInCart] = useState([])
-    const [wishList,setWishList] = useState([])
+    const [wishlist,setWishlist] = useState([])
     const [products,setProducts] = useState([])
     const [cart, setCart] = useState(false)
 
@@ -17,8 +17,8 @@ export function CartProvider({children}){
             itemsInCart,
             setItemsInCart,
             products,
-            wishList,
-            setWishList,
+            wishlist,
+            setWishlist,
             setProducts,
             cart,
             setCart

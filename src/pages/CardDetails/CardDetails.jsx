@@ -16,7 +16,7 @@ function CardDetails() {
     const [image, setImage] = useState("0")
     const [isAdded, setIsAdded] = useState(true)
     const {itemsInCart, setItemsInCart} = useCart()
-    const { wishList, setWishList } = useCart()
+    const { wishlist, setWishlist } = useCart()
     
     function addToCart(productDetails){
         console.log({productDetails})
@@ -40,7 +40,7 @@ function CardDetails() {
     function addToWishList(productDetails){
         toast("Added to wishlist", { type: "info"})
         let inCart = false
-        setWishList(wishList.map(currItem => {
+        setWishlist(wishlist.map(currItem => {
             if(currItem.id===productDetails._id){
                 inCart = true
                 toast("Already marked", {type : "warning"})
@@ -53,13 +53,50 @@ function CardDetails() {
             // return currItem
         }))
         if(!inCart){
-            setWishList([...wishList,{productDetails,quantity:1}])
+            setWishlist([...wishlist,{productDetails,quantity:1}])
         }
     }
+
+      useEffect(async () => {
+          try {
+            (async function postItems() {
+              const response = await axios.post(
+                "https://evening-woodland-75481.herokuapp.com/cart",
+                {
+                  itemsInCart: itemsInCart,
+                },
+              );
+              console.log("cart", response.data.itemsInCart);
+              response.data.itemsInCart &&
+                localStorage.setItem("cart", JSON.stringify(response.data.itemsInCart));
+            })();
+          } catch (err) {
+            console.log(err);
+          }
+      }, [itemsInCart]);
+
+      useEffect(async () => {
+        try {
+          (async function postItems() {
+            const response = await axios.post(
+              "https://evening-woodland-75481.herokuapp.com/wishlist",
+              {
+                wishlist: wishlist,
+              },
+            );
+            console.log("wishlist", response.data.wishlist);
+            response.data.wishlist &&
+              localStorage.setItem("wishlist", JSON.stringify(response.data.wishlist));
+          })();
+        } catch (err) {
+          console.log(err);
+        }
+    }, [wishlist]);
+
     const { id } = useParams()
     console.log(id)
     useEffect(() => {
-        (async function () {
+        (async function getItems() {
           try {
             const result = await axios.get(`https://evening-woodland-75481.herokuapp.com/product/${id}`);
             setLoading(false)
@@ -87,7 +124,8 @@ function CardDetails() {
           /> ) : (
         <div className="cardDetails">
             <div className="cardDetails__left">
-                <div className="cdDetails__image"><img src={productDetails && productDetails.imageURL[image]} className="cd__img"/>
+                <div className="cdDetails__image">
+                    <img src={productDetails && productDetails.imageURL[image]} className="cd__img"/>
                 <div className="wishList__icon"><AiOutlineHeart size={30} onClick={()=> addToWishList(productDetails)}/>
                 <ToastContainer/>
                 </div>

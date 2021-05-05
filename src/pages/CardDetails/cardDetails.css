@@ -18,6 +18,10 @@
 }
 .cdDetails__image{
     position: relative;
+    width: 12rem;
+    height: 18rem;
+    margin: 0 7rem;
+    /* border: 1px solid var(--bg-green); */
 }
 .wishList__icon{
     position: absolute; 
@@ -38,12 +42,10 @@
     width: 60%; 
     margin-top: 6rem;
 }
-.cdDetails__img{
-    margin: 1rem 0;
-}
+
 .cd__img{
     width: 100%;
-    height: 20rem;
+    height: 15rem;
 }
 .img{
     width: 100%;
