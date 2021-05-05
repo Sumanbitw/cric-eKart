@@ -62,6 +62,7 @@ const close = () => setShowModal(false)
 function WishList() {
     const { wishlist } = useCart()
     const { setWishlist} = useCart()
+    const { itemsInCart, setItemsInCart } = useCart()
 
     useEffect(() => {
         try {
@@ -79,6 +80,22 @@ function WishList() {
           console.log(err);
         }
     }, []);
+    useEffect(async () => {
+        try {
+          (async function postItems() {
+            const response = await axios.post(
+              "https://evening-woodland-75481.herokuapp.com/cart",
+              {
+                itemsInCart: itemsInCart,
+              },
+            );
+            console.log("cart", response.data.itemsInCart);
+            localStorage.setItem("cart", JSON.stringify(response.data.itemsInCart));
+          })();
+        } catch (err) {
+          console.log(err);
+        }
+    }, [itemsInCart]);
     useEffect(async () => {
         try {
           (async function postItems() {
