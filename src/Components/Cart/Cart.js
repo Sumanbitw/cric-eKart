@@ -5,7 +5,7 @@ import axios from "axios"
 import "./cart.module.css"
 import Loader from "react-loader-spinner"
 import "./cart.css"
-// import cart from "../../Images/cart.svg"
+
 
 
 function ShowCart({item}){
@@ -116,21 +116,17 @@ function ShowCart({item}){
 function Cart() {
     const {itemsInCart, setItemsInCart} = useCart()
     const { wishlist, setWishlist } = useCart()
-    // const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         try {
           (async function getItems() {
-          //   setLoading(true);
             const res = await axios.get(
               "https://evening-woodland-75481.herokuapp.com/cart",
             );
             console.log(res);
-          //   setLoading(false);
             res.data.itemsInCart && setItemsInCart(res.data.itemsInCart);
           })();
         } catch (err) {
-          // setLoading(false);
           console.log(err);
         }
     }, []);
@@ -154,16 +150,13 @@ function Cart() {
     useEffect(() => {
       try {
         (async function getItems() {
-        //   setLoading(true);
           const res = await axios.get(
             "https://evening-woodland-75481.herokuapp.com/wishlist",
           );
-          console.log(res);
-        //   setLoading(false);
+          console.log(res)
           res.data.wishlist && setWishlist(res.data.wishlist);
         })();
       } catch (err) {
-        // setLoading(false);
         console.log(err);
       }
   }, []);
@@ -191,14 +184,6 @@ function getPrice(){
 }
     return (
         <>
-        {/* { loading ? ( <Loader
-            type="ThreeDots"
-            color="#2563EB"
-            height={100}
-            width={100}
-            timeout={3000} 
-            style={{margin : "0 20rem"}}
-            /> ) : ( */}
         <div className="cart__products">
             {(itemsInCart.length === 0) ? 
             <div className="cart__items">
@@ -236,8 +221,7 @@ function getPrice(){
             </div>
 }
         </div>
-            {/* ) */}
-{/* } */}
+           
         </>
     )
 }

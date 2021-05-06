@@ -57,12 +57,12 @@ function Home() {
                 <li>
                     <img src="https://www.onlinecricstore.com/media/wysiwyg/Home_Page/spartan-logo.png" alt="spartan"/>
                 </li> 
-                { /*<li>
+                <li>
                     <img src="https://www.onlinecricstore.com/media/wysiwyg/Home_Page/new-balance-logo.png" alt="nb"/>
                 </li>
                 <li>
                     <img src="https://www.onlinecricstore.com/media/wysiwyg/Home_Page/bas-logo.png" alt="bas"/>
-                </li> */}
+                </li>
             </div>
         </div>
         

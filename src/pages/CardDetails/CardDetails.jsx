@@ -44,13 +44,13 @@ function CardDetails() {
             if(currItem.id===productDetails._id){
                 inCart = true
                 toast("Already marked", {type : "warning"})
-            //     return { 
-            //         ...currItem,
-            //         quantity: currItem.quantity + 1
-            //     }
+                  return { 
+                    ...currItem,
+                     quantity: currItem.quantity + 1
+                 }
 
-            }
-            // return currItem
+             }
+            return currItem
         }))
         if(!inCart){
             setWishlist([...wishlist,{productDetails,quantity:1}])

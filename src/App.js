@@ -12,14 +12,6 @@ import { Routes, Route, Navigate} from "react-router-dom"
 import { useCart } from "./context/cartContext"
 
 
-// const PrivateRoute = ({path, isLoggedIn, element}) => {
-//   if(isLoggedIn === true) {
-//     return element
-//   } else {
-//     return <Navigate to="/login"/> 
-//   }
-// }
-
 export default function App() {
   const { setWishlist } = useCart()
   const { setItemsInCart } = useCart()
@@ -27,16 +19,13 @@ export default function App() {
 useEffect(() => {
   try {
     (async function getItems() {
-    //   setLoading(true);
       const res = await axios.get(
         "https://evening-woodland-75481.herokuapp.com/wishlist",
       );
       console.log(res);
-    //   setLoading(false);
       res.data.wishlist && setWishlist(res.data.wishlist);
     })();
   } catch (err) {
-    // setLoading(false);
     console.log(err);
   }
 }, []);
@@ -44,16 +33,13 @@ useEffect(() => {
 useEffect(() => {
   try {
     (async function getItems() {
-    //   setLoading(true);
       const res = await axios.get(
         "https://evening-woodland-75481.herokuapp.com/cart",
       );
       console.log(res);
-    //   setLoading(false);
       res.data.itemsInCart && setItemsInCart(res.data.itemsInCart);
     })();
   } catch (err) {
-    // setLoading(false);
     console.log(err);
   }
 }, []);
@@ -68,7 +54,6 @@ useEffect(() => {
         <Route path="/wishlist" element={<WishList/>} />
         <Route path="/checkout" element={<Checkout/>} />
         <Route path="/login" element={<Login/>} />
-        {/* <PrivateRoute path="/cart" isLoggedIn = {cart} element={<Cart/>} /> */}
         </Routes>
     </div>
   );

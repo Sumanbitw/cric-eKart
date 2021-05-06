@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useCart } from '../../context/cartContext'
 import Modal from "../../pages/Modal/Modal"
-// import Wishlist from "../../Images/Wishlist.svg"
 import axios from "axios"
 import "./wishlist.css"
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-// import "./wishliststyles.css"
+
 
 function ShowWishList({item}){
     const [showModal, setShowModal] = useState(false)
@@ -67,16 +66,13 @@ function WishList() {
     useEffect(() => {
         try {
           (async function getItems() {
-          //   setLoading(true);
             const res = await axios.get(
               "https://evening-woodland-75481.herokuapp.com/wishlist",
             );
             console.log(res);
-          //   setLoading(false);
             res.data.wishlist && setWishlist(res.data.wishlist);
           })();
         } catch (err) {
-          // setLoading(false);
           console.log(err);
         }
     }, []);
