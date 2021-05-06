@@ -1,13 +1,16 @@
-import React from 'react'
+import React ,{ useEffect,useState } from 'react'
 import { useCart } from '../../context/cartContext'
 import { Link } from "react-router-dom"
+import axios from "axios"
+import "./cart.module.css"
+import Loader from "react-loader-spinner"
 import "./cart.css"
-import cart from "../../Images/cart.svg"
+
 
 
 function ShowCart({item}){
-    const { itemsInCart,setItemsInCart,wishList,setWishList} = useCart()
-    
+    const { itemsInCart,setItemsInCart,wishlist,setWishlist} = useCart()
+
     function increaseItemQuantity(items){
         console.log({items})
         setItemsInCart( itemsInCart.map(currItems => {
@@ -41,7 +44,7 @@ function ShowCart({item}){
     }
     function wishListToCart(items){
         let inCart = false
-        setWishList(wishList.map(currItems => {
+        setWishlist(wishlist.map(currItems => {
             if(currItems.productDetails._id === items.productDetails._id){
                 inCart = true
                 return {
@@ -53,7 +56,7 @@ function ShowCart({item}){
             }
         }))
         if(!inCart)(
-            setWishList([...wishList,{...item,quantity:1}])
+            setWishlist([...wishlist,{...item,quantity:1}])
         )
     }
     
@@ -111,18 +114,80 @@ function ShowCart({item}){
     )
 }
 function Cart() {
-    const {itemsInCart} = useCart()
+    const {itemsInCart, setItemsInCart} = useCart()
+    const { wishlist, setWishlist } = useCart()
+
+    useEffect(() => {
+        try {
+          (async function getItems() {
+            const res = await axios.get(
+              "https://evening-woodland-75481.herokuapp.com/cart",
+            );
+            console.log(res);
+            res.data.itemsInCart && setItemsInCart(res.data.itemsInCart);
+          })();
+        } catch (err) {
+          console.log(err);
+        }
+    }, []);
+    useEffect(async () => {
+        try {
+          (async function postItems() {
+            const response = await axios.post(
+              "https://evening-woodland-75481.herokuapp.com/cart",
+              {
+                itemsInCart: itemsInCart,
+              },
+            );
+            console.log("cart", response.data.itemsInCart);
+            localStorage.setItem("cart", JSON.stringify(response.data.itemsInCart));
+          })();
+        } catch (err) {
+          console.log(err);
+        }
+    }, [itemsInCart]);
+
+    useEffect(() => {
+      try {
+        (async function getItems() {
+          const res = await axios.get(
+            "https://evening-woodland-75481.herokuapp.com/wishlist",
+          );
+          console.log(res)
+          res.data.wishlist && setWishlist(res.data.wishlist);
+        })();
+      } catch (err) {
+        console.log(err);
+      }
+  }, []);
+  useEffect(async () => {
+      try {
+        (async function postItems() {
+          const response = await axios.post(
+            "https://evening-woodland-75481.herokuapp.com/wishlist",
+            {
+              wishlist: wishlist,
+            },
+          );
+          console.log("wishlist", response.data.wishlist);
+          localStorage.setItem("wishlist", JSON.stringify(response.data.wishlist));
+        })();
+      } catch (err) {
+        console.log(err);
+      }
+  }, [wishlist]);
+
 function getPrice(){
     let total = 0 ;
     itemsInCart.map(item => total = total + parseInt(item.productDetails.price) * parseInt(item.quantity))
     return total
 }
     return (
+        <>
         <div className="cart__products">
             {(itemsInCart.length === 0) ? 
             <div className="cart__items">
                 <div className="img">
-                <img src={cart} alt=""/>
                 </div>
                 <p style={{fontSize:"20px",margin:"1rem",color:"grey"}}>
                     Add items in cart
@@ -156,6 +221,8 @@ function getPrice(){
             </div>
 }
         </div>
+           
+        </>
     )
 }
 export default Cart
