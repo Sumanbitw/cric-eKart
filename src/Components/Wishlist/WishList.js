@@ -3,55 +3,71 @@ import { useCart } from '../../context/cartContext'
 import Modal from "../../pages/Modal/Modal"
 import axios from "axios"
 import "./wishlist.css"
+import { Link, useNavigate } from "react-router-dom"
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useAuth } from '../../context/authContext'
 
 
-function ShowWishList({item}){
+
+ function ShowWishList({wishlistItem}){
     const [showModal, setShowModal] = useState(false)
-    const { itemsInCart, setItemsInCart } = useCart()
-    const {wishlist, setWishlist} = useCart()
-    console.log({item})
+    const { state : { cart }, dispatch  } = useCart()
+    const { user } = useAuth()
+    const navigate = useNavigate()
+    console.log({wishlistItem})
 
-
-function addToCart(items) {
-    toast("Added to Cart", {type : "info"})
-    let inCart = false
-    setItemsInCart(itemsInCart.map(currItems => {
-        if(currItems.id === items.id){
-            inCart = true
-            return {
-                ...currItems,
-                quantity: currItems.quantity + 1
+    const itemsInCart = () => cart.find(cartItem => cartItem._id === wishlistItem._id )
+    console.log(itemsInCart())
+    useEffect(() => {
+        (async function getItemsInCart(){
+            try{
+                const response = await axios.get(`https://crickart.herokuapp.com/wishlist/${user._id}`)
+                console.log(response)
+            }catch(error){
+                console.log(error)
             }
-        }else{
-            return currItems
-        }
-    }))
-    if(!inCart)(
-        setItemsInCart([...itemsInCart,{...item,quantity:1}])
-    )
-}
-const open = () => setShowModal(true)
-const close = () => setShowModal(false)
+        })()
+    },[])
+
+    const addToCart = async (e) => {
+          if(!itemsInCart()){
+            try {
+              const response = await axios.post("https://crickart.herokuapp.com/cart",
+              {
+                user : user._id,
+                productId : wishlistItem._id,
+                quantity : 1
+              })
+              dispatch({ type : "ADD__TO__CART", payload : wishlistItem })
+            }catch(error){
+              console.log(error)
+            }
+            }
+      }  
+    const open = () => setShowModal(true)
+    const close = () => setShowModal(false)
+
     return (
         <div className="wishlist__item-details">
             <div className="wishlist__list">
                 <div className="wishlist__image">
-                <img src={item.productDetails.imageURL[0]} alt="" />
+                <img src={ wishlistItem && wishlistItem.imageURL[0]} alt="" />
                 </div>
                 <div className="wishlist__name">
-                <span className="wishlist__item">{item.productDetails.title}</span><br/>
+                <span className="wishlist__item">{wishlistItem && wishlistItem.title}</span><br/>
                 <div className="whislist__price__details">
-                <p>  ₹ {item.productDetails.price}</p>
-                <p style={{color:"green"}}> {item.productDetails.discount} %</p>
-                <p style={{textDecoration:"line-through", color:"grey"}}> ₹ {item.productDetails.netPrice}</p>
+                <p>  ₹ {wishlistItem && wishlistItem.price}</p>
+                <p style={{color:"green"}}> {wishlistItem && wishlistItem.discount} %</p>
+                <p style={{textDecoration:"line-through", color:"grey"}}> ₹ {wishlistItem && wishlistItem.netPrice}</p>
             </div><br/>
             <div className="btn__wishList">
-                <button className="wishlist__btn" onClick={() => addToCart(item) } ><i className="fa fa-shopping-cart"> Add to Bag </i></button>
+                {itemsInCart()
+                ? <Link to="/cart"><button className="wishlist__btn"><i className="fa fa-shopping-cart"> Go to Bag </i></button></Link>
+                : <button className="wishlist__btn" onClick={addToCart}><i className="fa fa-shopping-cart"> Add to Bag </i></button>      }
                 <ToastContainer />
                 <button onClick={open} className="wishlist__remove">Remove</button>
-                <Modal showModal={showModal} close={close} item={item}/>
+                <Modal showModal={showModal} close={close} wishlistItem={wishlistItem}/>
                 </div>
                 </div>
                 </div>
@@ -59,62 +75,35 @@ const close = () => setShowModal(false)
     )
 }
 function WishList() {
-    const { wishlist } = useCart()
-    const { setWishlist} = useCart()
-    const { itemsInCart, setItemsInCart } = useCart()
+    const {state : { wishlist }} = useCart()
+    const { user } = useAuth()
+    console.log({ wishlist })
 
     useEffect(() => {
-        try {
-          (async function getItems() {
-            const res = await axios.get(
-              "https://evening-woodland-75481.herokuapp.com/wishlist",
-            );
-            console.log(res);
-            res.data.wishlist && setWishlist(res.data.wishlist);
-          })();
-        } catch (err) {
-          console.log(err);
-        }
-    }, []);
-    useEffect(async () => {
-        try {
-          (async function postItems() {
-            const response = await axios.post(
-              "https://evening-woodland-75481.herokuapp.com/cart",
-              {
-                itemsInCart: itemsInCart,
-              },
-            );
-            console.log("cart", response.data.itemsInCart);
-            localStorage.setItem("cart", JSON.stringify(response.data.itemsInCart));
-          })();
-        } catch (err) {
-          console.log(err);
-        }
-    }, [itemsInCart]);
-    useEffect(async () => {
-        try {
-          (async function postItems() {
-            const response = await axios.post(
-              "https://evening-woodland-75481.herokuapp.com/wishlist",
-              {
-                wishlist: wishlist,
-              },
-            );
-            console.log("wishlist", response.data.wishlist);
-            localStorage.setItem("wishlist", JSON.stringify(response.data.wishlist));
-          })();
-        } catch (err) {
-          console.log(err);
-        }
-    }, [wishlist]);
+        (async function getItemsInCart(){
+            try{
+                const response = await axios.get(`https://crickart.herokuapp.com/wishlist/${user._id}`)
+                console.log(response)
+            }catch(error){
+                console.log(error)
+            }
+        })()
+    },[])
+
     return (
         <div className="whishlist">
-        {(wishlist.length) === 0 ? <div className="wishlist__items wishlist"><p style={{fontSize:"15px",margin:"1rem",color:"grey"}}>WishList is Empty</p></div> : <p style={{fontSize:"25px",margin:"1rem"}}>Wishlist : ({wishlist.length})  </p>}
+        {(wishlist && wishlist.length) === 0 
+        ? <div className="wishlist__items wishlist">
+            <p style={{fontSize:"15px",margin:"1rem",color:"grey"}}>
+                WishList is Empty
+            </p></div> 
+        : <p style={{fontSize:"25px",margin:"1rem"}}>
+            Wishlist : ({wishlist && wishlist.length})  
+          </p>}
             <div className="wishlist__container " >
-            {wishlist.map(item => (
+            {wishlist && wishlist.map(wishlistItem => (
                 <ul>
-                    <ShowWishList item={item}/>
+                    <ShowWishList wishlistItem={wishlistItem}/>
                 </ul>
             ))}
             </div>

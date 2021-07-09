@@ -31,6 +31,7 @@
     color: white;
     background-color: var(--bg-green);
     border-radius: 100%;
+    cursor: pointer;
 }
 .cardDetails__left img{
     max-width: 100%;

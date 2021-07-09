@@ -13,8 +13,9 @@
 .home__card{
     display: flex;
     flex-wrap: wrap;
-    margin: 1rem 0;
-    justify-content: space-evenly;
+    margin: 0 auto;
+    width: 80%;
+    justify-content: center;
     align-items: center;
 }
 

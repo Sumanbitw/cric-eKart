@@ -6,6 +6,7 @@ import "./card.css"
 
 function Card ({
     id,
+    item,
     title,
     imageURL,
     price,

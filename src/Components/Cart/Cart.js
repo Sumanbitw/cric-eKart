@@ -5,104 +5,112 @@ import axios from "axios"
 import "./cart.module.css"
 import Loader from "react-loader-spinner"
 import "./cart.css"
+import { useAuth } from '../../context/authContext'
 
 
 
-function ShowCart({item}){
+function ShowCart({ cartItem }){
     const { itemsInCart,setItemsInCart,wishlist,setWishlist} = useCart()
-
-    function increaseItemQuantity(items){
-        console.log({items})
-        setItemsInCart( itemsInCart.map(currItems => {
-                console.log({currItems})
-                if(currItems.productDetails._id ===items.productDetails._id ){
-                    return {
-                        ...currItems,
-                        quantity : currItems.quantity + 1,
-                    }
-                }else {
-                    return currItems
-                }
-            })
-        )
-    }
-    function decreaseItemQuantity(items){
-        setItemsInCart(itemsInCart.map(currItems => {
-            if(currItems.productDetails._id === items.productDetails._id){
-                return {
-                    ...currItems,
-                    quantity : currItems.quantity - 1,
-                }
-              }else{
-                return currItems
-            }
-        }))
-    }
-
-    function removeItem(items){
-        setItemsInCart(itemsInCart.filter(currItems => currItems.productDetails._id !== items.productDetails._id))
-    }
-    function wishListToCart(items){
-        let inCart = false
-        setWishlist(wishlist.map(currItems => {
-            if(currItems.productDetails._id === items.productDetails._id){
-                inCart = true
-                return {
-                    ...currItems,
-                    quantity: currItems.quantity + 1
-                }
-            }else{
-                return currItems
-            }
-        }))
-        if(!inCart)(
-            setWishlist([...wishlist,{...item,quantity:1}])
-        )
-    }
+    const { dispatch } = useCart()
+    const { user } = useAuth()
+    console.log({cartItem})
     
+    const increaseItemQuantity = async () => {
+        try {
+            console.log(user._id, cartItem._id)
+            const response = await axios.patch(`https://crickart.herokuapp.com/cart/${user._id}/${cartItem._id}`,
+            {
+                quantity : cartItem.quantity + 1
+            })
+            console.log(response.data)
+            dispatch({ type : "INCREASE__QUANTITY", payload : cartItem })
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    const decreaseItemQuantity = async () => {
+        try {
+            console.log(user._id, cartItem._id)
+            const response = await axios.patch(`https://crickart.herokuapp.com/cart/${user._id}/${cartItem._id}`,
+            {
+                quantity : cartItem.quantity - 1
+            })
+            console.log(response.data)
+            dispatch({ type : "DECREASE__QUANTITY", payload : cartItem })
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    const removeItem = async () => {
+        const response = await axios.delete(
+            `https://crickart.herokuapp.com/cart/${user._id}/${cartItem._id}`
+        )
+        console.log(response.data)
+        dispatch({ type : "REMOVE__ITEM__FROM__CART", payload : cartItem })
+    }
+
+    const wishListToCart = async (e) => {
+        console.log("clicked")
+            try {
+              const response = await axios.post("https://crickart.herokuapp.com/wishlist",
+              {
+                userId : user._id,
+                productId : cartItem._id,
+              })
+              console.log(response)
+              dispatch({ type : "ADD__TO__WISHLIST", payload : cartItem })
+            }catch(error){
+              console.log(error)
+            }
+        }
+        
+  
     return (
         <>
-        <div className="cart__container" key={item.productDetails.id}>
+        <div className="cart__container" key={cartItem._id}>
             <div className="cart__list">
                 <img 
-                    src={item.productDetails.imageURL[0]} 
-                    alt=""  
+                    src={cartItem.imageURL[0]} 
+                    alt="image"  
                     className="cart__img"/>
             </div>
             <div className="cart__name">
                 <span className="cart__title">
-                    {item.productDetails.title}
+                    {cartItem.title}
                 </span><br/>
                 <span className="cart__price">
                     ₹
                 <b>
-                    {item.productDetails.price}
+                    {cartItem.price}
                 </b>
                 </span><br/>
             <div className="btn__qty">
                 <button  
-                    onClick={() => increaseItemQuantity(item)} 
+                    onClick={increaseItemQuantity} 
                     style={{marginRight:"10px",padding:"3px 5px"}}>
                     +
                 </button>
                 <span>
-                    Quantity : {item.quantity}
+                    Quantity : {cartItem.quantity}
                 </span>
-                <button 
-                disabled={item.quantity === 1 ? true : false} 
-                onClick={() => decreaseItemQuantity(item)} 
+                <button  
+                onClick={decreaseItemQuantity} 
                 style={{marginLeft:"10px",padding:"3px 5px"}}>
-                    -
+                    <span>
+                        {cartItem.quantity === 1 ? "-" : "remove"}
+                    </span>
                 </button>
             </div>
             <div className="buttons">
                 <button 
-                    onClick={() => removeItem(item)} 
+                    onClick={removeItem} 
                     className="btn-primary btn__remove btn__bg">
                         Remove
                 </button>
                 <button 
-                    onClick={() => wishListToCart(item)} 
+                    onClick={() => wishListToCart()} 
                     className="btn-primary btn__bag btn__bg">
                         Wishlist
                 </button>
@@ -116,76 +124,31 @@ function ShowCart({item}){
 function Cart() {
     const {itemsInCart, setItemsInCart} = useCart()
     const { wishlist, setWishlist } = useCart()
+    const { state : { cart }  } = useCart()
+    const { user } = useAuth()
 
+    console.log(cart)
     useEffect(() => {
-        try {
-          (async function getItems() {
-            const res = await axios.get(
-              "https://evening-woodland-75481.herokuapp.com/cart",
-            );
-            console.log(res);
-            res.data.itemsInCart && setItemsInCart(res.data.itemsInCart);
-          })();
-        } catch (err) {
-          console.log(err);
-        }
-    }, []);
-    useEffect(async () => {
-        try {
-          (async function postItems() {
-            const response = await axios.post(
-              "https://evening-woodland-75481.herokuapp.com/cart",
-              {
-                itemsInCart: itemsInCart,
-              },
-            );
-            console.log("cart", response.data.itemsInCart);
-            localStorage.setItem("cart", JSON.stringify(response.data.itemsInCart));
-          })();
-        } catch (err) {
-          console.log(err);
-        }
-    }, [itemsInCart]);
+        (async function getItemsInCart(){
+            try{
+                const response = await axios.get(`https://crickart.herokuapp.com/cart/${user._id}`)
+                console.log(response)
+            }catch(error){
+                console.log(error)
+            }
+        })()
+    },[])
 
-    useEffect(() => {
-      try {
-        (async function getItems() {
-          const res = await axios.get(
-            "https://evening-woodland-75481.herokuapp.com/wishlist",
-          );
-          console.log(res)
-          res.data.wishlist && setWishlist(res.data.wishlist);
-        })();
-      } catch (err) {
-        console.log(err);
-      }
-  }, []);
-  useEffect(async () => {
-      try {
-        (async function postItems() {
-          const response = await axios.post(
-            "https://evening-woodland-75481.herokuapp.com/wishlist",
-            {
-              wishlist: wishlist,
-            },
-          );
-          console.log("wishlist", response.data.wishlist);
-          localStorage.setItem("wishlist", JSON.stringify(response.data.wishlist));
-        })();
-      } catch (err) {
-        console.log(err);
-      }
-  }, [wishlist]);
-
-function getPrice(){
-    let total = 0 ;
-    itemsInCart.map(item => total = total + parseInt(item.productDetails.price) * parseInt(item.quantity))
-    return total
-}
+    function getPrice(){
+        let total = 0 ;
+        cart && cart.map(item => total = total + parseInt(item?.productId?.netPrice) * parseInt(item?.quantity))
+        console.log(total)
+        return total
+    }
     return (
         <>
         <div className="cart__products">
-            {(itemsInCart.length === 0) ? 
+            {(cart && cart.length === 0) ? 
             <div className="cart__items">
                 <div className="img">
                 </div>
@@ -194,16 +157,16 @@ function getPrice(){
                 </p>
                 </div> : 
                 <p style={{fontSize:"25px"}}>
-                    My Cart :{itemsInCart.length}
+                    My Cart :{cart && cart.length}
                 </p> }<br/>
             <div className="cart__header">
-           {itemsInCart.map((item) => (
+           {cart && cart.map((cartItem) => (
            <ul>
-               <ShowCart item={item}/>
+               <ShowCart cartItem={cartItem}/>
             </ul>
             ))}
             </div>
-            {itemsInCart.length!==0 &&
+            {cart.length!==0 &&
             <div className="cart__checkout">
                 <div className="checkout">
                 <h1>Checkout</h1>

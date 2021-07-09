@@ -9,45 +9,48 @@ import {FiFilter} from "react-icons/fi"
 import Loader from "react-loader-spinner"
 
 function ProductListing() {
-    const {products,setProducts} = useCart()
+    // const {products,setProducts} = useCart()
     const [loading, setLoading] = useState(true)
+    const { state : { products, showFastDeliveryOnly, showInventoryAll, sortBy }, dispatch } = useCart()
+    
     useEffect(() => {
         (async function () {
           try {
-            const result = await axios.get("https://evening-woodland-75481.herokuapp.com/product/");
+            const result = await axios.get("https://crickart.herokuapp.com/product");
             setLoading(false)
-            setProducts(result.data);
+            // setProducts(result.data);
+            dispatch({ type : "SET__PRODUCTS", payload : result.data })
           } catch (err) {
             console.log(err);
           }
         })();
       }, []);
 
-      const [{showInventoryAll,showFastDeliveryOnly,sortBy}, dispatch] = useReducer(function reducer(state,action){
-        switch(action.type){
-          case "TOGGLE_INVENTORY":
-            return (state = {
-              ...state,
-              showInventoryAll : !state.showInventoryAll
-            })
-            case "TOGGLE_DELIVERY" :
-              return (state = {
-                ...state,
-                showFastDeliveryOnly : !state.showFastDeliveryOnly
-              })
-            case "sort":
-              return {
-                ...state,
-                sortBy : action.payload
-            }
-            default :
-            return state
-        }
-      },{
-        showInventoryAll : true,
-        showFastDeliveryOnly: false,
-        sortBy : null
-      })
+      // const [{showInventoryAll,showFastDeliveryOnly,sortBy}, dispatch] = useReducer(function reducer(state,action){
+      //   switch(action.type){
+      //     case "TOGGLE_INVENTORY":
+      //       return (state = {
+      //         ...state,
+      //         showInventoryAll : !state.showInventoryAll
+      //       })
+      //       case "TOGGLE_DELIVERY" :
+      //         return (state = {
+      //           ...state,
+      //           showFastDeliveryOnly : !state.showFastDeliveryOnly
+      //         })
+      //       case "sort":
+      //         return {
+      //           ...state,
+      //           sortBy : action.payload
+      //       }
+      //       default :
+      //       return state
+      //   }
+      // },{
+      //   showInventoryAll : true,
+      //   showFastDeliveryOnly: false,
+      //   sortBy : null
+      // })
 
       function getSortedData(products,sortBy){
         if(sortBy && sortBy === "PRICE_LOW_TO_HIGH"){
@@ -60,7 +63,7 @@ function ProductListing() {
       }
 
       function getFilteredData(products , {showFastDeliveryOnly, showInventoryAll}){
-        return products.filter(({fastDelivery}) => 
+        return products && products.filter(({fastDelivery}) => 
           showFastDeliveryOnly ? fastDelivery : true 
           )
           .filter(({inStock}) => 
@@ -69,6 +72,7 @@ function ProductListing() {
       }
       const sortedData = getSortedData(products,sortBy)
       const filteredData = getFilteredData(sortedData, {showFastDeliveryOnly, showInventoryAll})
+  
     return (
       <>
             <div className="app">
@@ -119,9 +123,11 @@ function ProductListing() {
               </div>
             <div className="app-cart">
               
-                {filteredData.map((item) => (
+                {filteredData && filteredData
+                .map((item) => (
                 <Card 
-                id={item._id} 
+                id={item._id}
+                item={item} 
                 title={item.title} 
                 imageURL={item.imageURL} 
                 category={item.category}
