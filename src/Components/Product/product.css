@@ -21,17 +21,17 @@
     margin-left: 15% ;
   }
   
-  .app-sidebar{
+  /* .app-sidebar{
     width: 15%;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     height: 100%;
-    /* margin: 1rem; */
+     margin: 1rem; 
     padding: 1rem;
     background-color:#F3F4F6;
-  }
+  } */
   
   /* .page-wrap{
     display: flex;
@@ -42,9 +42,9 @@
     display: none;
   }
   @media screen and (max-width:720px){
-    .app-sidebar{
+    /* .app-sidebar{
       display:none;
-    }
+    } */
     .app-component{
       display: flex;
       flex-direction: column;

@@ -7,9 +7,9 @@ import { useCart } from '../../context/cartContext';
 import {MdSort} from "react-icons/md"
 import {FiFilter} from "react-icons/fi"
 import Loader from "react-loader-spinner"
+import Sidebar from '../Sidebar/Sidebar';
 
 function ProductListing() {
-    // const {products,setProducts} = useCart()
     const [loading, setLoading] = useState(true)
     const { state : { products, showFastDeliveryOnly, showInventoryAll, sortBy }, dispatch } = useCart()
     
@@ -18,39 +18,12 @@ function ProductListing() {
           try {
             const result = await axios.get("https://crickart.herokuapp.com/product");
             setLoading(false)
-            // setProducts(result.data);
             dispatch({ type : "SET__PRODUCTS", payload : result.data })
           } catch (err) {
             console.log(err);
           }
         })();
       }, []);
-
-      // const [{showInventoryAll,showFastDeliveryOnly,sortBy}, dispatch] = useReducer(function reducer(state,action){
-      //   switch(action.type){
-      //     case "TOGGLE_INVENTORY":
-      //       return (state = {
-      //         ...state,
-      //         showInventoryAll : !state.showInventoryAll
-      //       })
-      //       case "TOGGLE_DELIVERY" :
-      //         return (state = {
-      //           ...state,
-      //           showFastDeliveryOnly : !state.showFastDeliveryOnly
-      //         })
-      //       case "sort":
-      //         return {
-      //           ...state,
-      //           sortBy : action.payload
-      //       }
-      //       default :
-      //       return state
-      //   }
-      // },{
-      //   showInventoryAll : true,
-      //   showFastDeliveryOnly: false,
-      //   sortBy : null
-      // })
 
       function getSortedData(products,sortBy){
         if(sortBy && sortBy === "PRICE_LOW_TO_HIGH"){
@@ -87,32 +60,13 @@ function ProductListing() {
               /> ) : (
                 <>
             <div className="app-component">
-              <div className="app-sidebar">
-                  <legend style={{borderBottom:"1px solid grey",margin :"1rem 0", paddingBottom:"1rem",fontSize:"18px"}}>Sort By</legend>
-                  <label style={{fontSize:"15px"}}>
-                    <input style={{margin:"0 1rem"}} type="radio" name="sort" checked={sortBy && sortBy ==="PRICE_LOW_TO_HIGH"} onChange={() => dispatch({type:"sort",payload:"PRICE_LOW_TO_HIGH"})}/>
-                      Price - Low to High
-                  </label> <br/>
-
-                  <label style={{fontSize:"15px"}}>
-                    <input style={{margin: " 0 1rem"}} type="radio" name="sort" checked={sortBy && sortBy === "PRICE_HIGH_TO_LOW"} onChange={() =>dispatch({type:"sort",payload:"PRICE_HIGH_TO_LOW"})}/>
-                      Price - High to Low
-                  </label>
-                
-              
-                  <legend style={{margin:"2rem 0",borderBottom:"1px solid grey",fontSize:"18px", paddingBottom:"1rem"}}>Filter</legend>
-                  <label style={{fontSize:"15px"}}>
-                    <input style={{margin : "0 1rem"}} type="checkbox" checked={showInventoryAll} onChange={() => dispatch({type:"TOGGLE_INVENTORY"})}/>
-                    Include out of stock
-                  </label><br/>
-
-                 
-                  <label style={{fontSize:"15px",marginLeft:"-3.4rem"}}>
-                    <input style={{margin:"0 1rem"}} type="checkbox" checked={showFastDeliveryOnly} onChange={() => dispatch({type:"TOGGLE_DELIVERY"})}/>
-                    Fast Delivery
-                  </label>
-              </div>
-          </div>
+              <Sidebar 
+              dispatch={dispatch} 
+              sortBy={sortBy} 
+              showInventoryAll={showInventoryAll}
+              showFastDeliveryOnly={showFastDeliveryOnly}
+              />
+            </div>
           <div className="sort__filter">
               <span style={{borderRight:"2px solid grey",width:"34vw",fontSize:"18px",margin:"0 22px"}}>Sort By
               <MdSort size={20} style={{margin:"0 10px"}}/>
