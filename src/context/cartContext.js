@@ -12,7 +12,7 @@ export function CartProvider({children}){
     // const [cart, setCart] = useState(false)
     const { user } = useAuth()
 
-    console.log(user._id)
+    console.log(user?._id)
     const initialState = {
         products : [],
         itemsInCart : [],
@@ -20,7 +20,8 @@ export function CartProvider({children}){
         wishlist : [],
         showInventoryAll : true,
         showFastDeliveryOnly: false,
-        sortBy : null
+        sortBy : null,
+        maxValue : 10000,
     }
     const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -28,8 +29,8 @@ export function CartProvider({children}){
             (async function () {
                 try{
                     const response = await axios.get("https://crickart.herokuapp.com/product")
-                    console.log(response.data.cart)
-                    dispatch({ type : "SET__PRODUCTS", payload : response.data.cart })
+                    console.log(response.data)
+                    dispatch({ type : "SET__PRODUCTS", payload : response.data })
                 }catch(error){
                     console.log(error)
                 }

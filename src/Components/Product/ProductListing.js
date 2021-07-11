@@ -11,7 +11,7 @@ import Sidebar from '../Sidebar/Sidebar';
 
 function ProductListing() {
     const [loading, setLoading] = useState(true)
-    const { state : { products, showFastDeliveryOnly, showInventoryAll, sortBy }, dispatch } = useCart()
+    const { state : { products, showFastDeliveryOnly, showInventoryAll, sortBy, maxValue }, dispatch } = useCart()
     
     useEffect(() => {
         (async function () {
@@ -35,16 +35,24 @@ function ProductListing() {
         return products
       }
 
-      function getFilteredData(products , {showFastDeliveryOnly, showInventoryAll}){
+      function getFilteredData(products , {showFastDeliveryOnly, showInventoryAll, maxValue}){
         return products && products.filter(({fastDelivery}) => 
           showFastDeliveryOnly ? fastDelivery : true 
           )
           .filter(({inStock}) => 
           showInventoryAll ? true : inStock
           )
+          .filter(item => parseInt(item.price) <= maxValue)
       }
       const sortedData = getSortedData(products,sortBy)
-      const filteredData = getFilteredData(sortedData, {showFastDeliveryOnly, showInventoryAll})
+      const filteredData = getFilteredData(sortedData, 
+        {
+          showFastDeliveryOnly, 
+          showInventoryAll,
+          maxValue
+        })
+
+        console.log(filteredData && filteredData)
   
     return (
       <>
@@ -65,6 +73,7 @@ function ProductListing() {
               sortBy={sortBy} 
               showInventoryAll={showInventoryAll}
               showFastDeliveryOnly={showFastDeliveryOnly}
+              maxValue={maxValue}
               />
             </div>
           <div className="sort__filter">

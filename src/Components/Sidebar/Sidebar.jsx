@@ -5,15 +5,37 @@ function Sidebar({
     dispatch,
     sortBy,
     showInventoryAll,
-    showFastDeliveryOnly
+    showFastDeliveryOnly,
+    maxValue
 }) {
     return (
-
+        <>
         <div className="app-sidebar">
+            <li className="sidebar__links">
+                <input
+                type="range"
+                min="100"
+                max="10000"
+                value={maxValue}
+                class="slider"
+                id="myRange"
+                className="sidebar__input"
+                onChange={(e) => {
+                    dispatch({
+                      type: "TOGGLE_PRICE_RANGE",
+                      payload: e.target.value,
+                    });
+                }}
+                />
+                <p>
+                    Value: <span id="demo">₹{maxValue}</span>
+                </p>
+            </li>
+            
             <legend>
                 Sort By
             </legend>
-            
+
             <li className="sidebar__links">
                 <input 
                 type="radio" 
@@ -73,7 +95,7 @@ function Sidebar({
                 type="checkbox"
                 className="sidebar__input"
                 />
-                5<img src="https://img.icons8.com/material-rounded/16/000000/star.png"/> & above 
+                5<img src="https://img.icons8.com/material-rounded/16/000000/star.png" alt=""/> & above 
             </li>
 
             
@@ -82,7 +104,7 @@ function Sidebar({
                 type="checkbox"
                 className="sidebar__input"
                 />
-                4<img src="https://img.icons8.com/material-rounded/16/000000/star.png"/> & above 
+                4<img src="https://img.icons8.com/material-rounded/16/000000/star.png" alt=""/> & above 
             </li>
 
             
@@ -91,7 +113,7 @@ function Sidebar({
                 type="checkbox"
                 className="sidebar__input"
                 />
-                3<img src="https://img.icons8.com/material-rounded/16/000000/star.png"/> & above 
+                3<img src="https://img.icons8.com/material-rounded/16/000000/star.png" alt=""/> & above 
             </li>
 
             
@@ -100,7 +122,7 @@ function Sidebar({
                 type="checkbox"
                 className="sidebar__input"
                 />
-                2<img src="https://img.icons8.com/material-rounded/16/000000/star.png"/> & above 
+                2<img src="https://img.icons8.com/material-rounded/16/000000/star.png" alt=""/> & above 
             </li>
 
             
@@ -109,9 +131,10 @@ function Sidebar({
                 type="checkbox"
                 className="sidebar__input"
                 />
-                1<img src="https://img.icons8.com/material-rounded/16/000000/star.png"/> & above 
+                1<img src="https://img.icons8.com/material-rounded/16/000000/star.png" alt=""/> & above 
             </li>
         </div>
+        </>
     
     )
 }

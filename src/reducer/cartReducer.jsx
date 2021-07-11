@@ -56,6 +56,12 @@ export const reducer = (state, action) => {
                 ...state,
                 sortBy : action.payload
             }
+            
+        case "TOGGLE_PRICE_RANGE":
+            return {
+                ...state,
+                maxValue: action.payload,
+            };
         
         case "INCREASE__QUANTITY" :
             console.log(action.payload)
