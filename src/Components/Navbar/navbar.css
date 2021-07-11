@@ -11,7 +11,8 @@
 nav{
     display: flex;
     justify-content: space-between;
-    min-height: 4rem;
+    /* min-height: 3rem; */
+    height: 4rem;
     width: 100vw;
     cursor: pointer;
     position: relative;
@@ -32,12 +33,11 @@ header{
 nav ul{
     display: inline-flex;
     margin: 25px 0;
-    padding: 0 50px;
 }
 li{
     list-style-type: none;
     text-decoration: none;
-    margin: 0 1rem;
+    /* margin: 0 1rem; */
 }
 .navbar__header{
     margin: 25px 0;
@@ -90,7 +90,14 @@ li{
     top: 2rem;
     left: 25rem;
 }
-
+.nav__btn{
+    padding: 0.3rem 0.5rem;
+    color: var(--bg-color);
+    font-size: 17px;
+    font-weight: 500;
+    border: 1px solid var(--bg-white);
+    background-color: var(--bg-white);
+}
 @media screen and (max-width:800px){
     .navbar__input{
         display: none;
@@ -99,8 +106,8 @@ li{
         display: none;
     }
     nav{
-        width: 100vw;
-        height: 3rem;
+        /* width: 100vw; */
+        /* height: 2rem; */
     }
     .cart__icon{
         position: relative;

@@ -10,7 +10,6 @@ import { useAuth } from '../../context/authContext'
 
 
 function ShowCart({ cartItem }){
-    const { itemsInCart,setItemsInCart,wishlist,setWishlist} = useCart()
     const { dispatch } = useCart()
     const { user } = useAuth()
     console.log({cartItem})
@@ -97,10 +96,10 @@ function ShowCart({ cartItem }){
                 </span>
                 <button  
                 onClick={decreaseItemQuantity} 
-                style={{marginLeft:"10px",padding:"3px 5px"}}>
-                    <span>
-                        {cartItem.quantity === 1 ? "-" : "remove"}
-                    </span>
+                style={{marginLeft:"10px",padding:"3px 5px"}}
+                disabled={cartItem.quantity === 1 ? true : false}
+                >
+                    -
                 </button>
             </div>
             <div className="buttons">
@@ -122,8 +121,6 @@ function ShowCart({ cartItem }){
     )
 }
 function Cart() {
-    const {itemsInCart, setItemsInCart} = useCart()
-    const { wishlist, setWishlist } = useCart()
     const { state : { cart }  } = useCart()
     const { user } = useAuth()
 
@@ -141,33 +138,37 @@ function Cart() {
 
     function getPrice(){
         let total = 0 ;
-        cart && cart.map(item => total = total + parseInt(item?.productId?.netPrice) * parseInt(item?.quantity))
+        cart && cart.map(item => total = total + item.price * item.quantity)
         console.log(total)
         return total
     }
+    
     return (
         <>
         <div className="cart__products">
-            {(cart && cart.length === 0) ? 
-            <div className="cart__items">
-                <div className="img">
-                </div>
+            <h1>Welcome {user?.name}</h1>
+            {(cart && cart.length === 0) 
+            ? <div className="cart__items">
+                <div className="img"></div>
                 <p style={{fontSize:"20px",margin:"1rem",color:"grey"}}>
                     Add items in cart
                 </p>
-                </div> : 
+              </div> 
+            : 
                 <p style={{fontSize:"25px"}}>
                     My Cart :{cart && cart.length}
-                </p> }<br/>
+                </p> 
+            }
+
             <div className="cart__header">
-           {cart && cart.map((cartItem) => (
-           <ul>
-               <ShowCart cartItem={cartItem}/>
-            </ul>
-            ))}
+                {cart && cart.map((cartItem) => (
+                <ul>
+                    <ShowCart cartItem={cartItem}/>
+                </ul>
+                ))}
             </div>
-            {cart.length!==0 &&
-            <div className="cart__checkout">
+
+                {cart.length!==0 && <div className="cart__checkout">
                 <div className="checkout">
                 <h1>Checkout</h1>
                 <div className="checkout__container">

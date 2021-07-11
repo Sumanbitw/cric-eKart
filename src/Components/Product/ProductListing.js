@@ -99,6 +99,7 @@ function ProductListing() {
                 fastDelivery={item.fastDelivery}
                 discount={item.discount}
                 netPrice={item.netPrice}
+                ratings={item.ratings}
                 />
                   ))}
               </div>

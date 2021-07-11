@@ -14,7 +14,7 @@ export default function Navbar (){
     const { state } = useLocation()
 
     useEffect(() => {
-      user && navigate("/", { replace : true })
+      user && navigate("/products", { replace : true })
   }, [])
 
     const logout = () => {
@@ -22,36 +22,52 @@ export default function Navbar (){
       navigate(state?.from ? state.from : "/login" )
     }
     return (
-
         <header>
           <nav>
-                <Link to="/" style={{textDecoration:"none"}}><p className="navbar__header">Crickart</p></Link>
-                <div className="nav__search">
-                <input type = "text" placeholder="Search for products, brands and more"  className="navbar__input"/>
-                <BiSearch className="search__icon" size={20}/>
-                </div>
-              <ul>
-                
-              <Link to="/cart" style={{textDecoration:"none"}}>
-                <li><AiOutlineShoppingCart size={30} cursor="pointer" color="#2563EB"/>
-                <span className="cart__icon">
-                  {cart && cart.length}
-                </span>
-                </li>
-              </Link>
+            <Link to="/" style={{textDecoration:"none"}}>
+              <p className="navbar__header">
+                Crickart
+              </p>
+            </Link>
+
+              <ul>  
               {!user 
               ? <Link to="/login" style={{textDecoration:"none"}}>
-                <li><BiUserCircle size={30} cursor="pointer" color="#2563EB"/></li>
+                <li>
+                  <BiUserCircle size={30} cursor="pointer" color="#2563EB"/>
+                </li>
                 </Link>
                 
-              : <li><BiUserCircle size={30} cursor="pointer" color="#2563EB"/>
-              <span className="cart__icon">
-                Hello {user.name}
-              </span>
-              <button onClick={() => logout() }>Logout</button>
+              : <li>
+                {/* <BiUserCircle size={30} cursor="pointer" color="#2563EB"/> */}
+                {/* <span className="cart__icon">
+                  Hello {user.name}
+                </span> */}
+              <button 
+              onClick={() => logout()}
+              className="nav__btn"
+              >
+                Logout
+              </button>
               </li>
               }
-              <Link to="/wishlist" style={{textDecoration:"none"}}><li><AiOutlineHeart size={30} cursor="pointer" color="#2563EB"/><span className="cart__icon">{wishlist && wishlist.length}</span></li></Link> 
+
+              <Link to="/cart" style={{textDecoration:"none"}}>
+                <li>
+                  <AiOutlineShoppingCart size={30} cursor="pointer" color="#2563EB"/>
+                  <span className="cart__icon">
+                    {cart && cart.length}
+                  </span>
+                </li>
+              </Link>
+
+              <Link to="/wishlist" style={{textDecoration:"none"}}>
+                <li>
+                  <AiOutlineHeart size={30} cursor="pointer" color="#2563EB"/>
+                  <span className="cart__icon">{wishlist && wishlist.length}
+                  </span>
+                </li>
+              </Link>
               </ul>  
           </nav>
         </header>  

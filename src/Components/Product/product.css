@@ -7,48 +7,29 @@
   
   .app-component{
     display: flex;
-    flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
   }
   
   .app-cart{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
     align-items: center;
+    justify-items: center;
+    box-sizing: border-box;
+    min-height: 90vh;
     margin-left: 15% ;
   }
   
-  /* .app-sidebar{
-    width: 15%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    height: 100%;
-     margin: 1rem; 
-    padding: 1rem;
-    background-color:#F3F4F6;
-  } */
-  
-  /* .page-wrap{
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-  } */
-  .sort__filter{
+
+.sort__filter{
     display: none;
-  }
+}
   @media screen and (max-width:720px){
-    /* .app-sidebar{
-      display:none;
-    } */
     .app-component{
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
+     width: 100%;
+     margin: 1rem 0;
     }
     .app{
       width: 100%;
