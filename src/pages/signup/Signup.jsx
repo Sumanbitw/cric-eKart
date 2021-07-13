@@ -65,6 +65,7 @@ function Signup() {
 
             <button 
             className="signupRegisterButton"
+            onClick={() => navigate("/login")}
             >
               Login
             </button>

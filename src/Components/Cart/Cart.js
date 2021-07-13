@@ -1,6 +1,6 @@
 import React ,{ useEffect,useState } from 'react'
 import { useCart } from '../../context/cartContext'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import "./cart.module.css"
 import Loader from "react-loader-spinner"
@@ -10,9 +10,11 @@ import { useAuth } from '../../context/authContext'
 
 
 function ShowCart({ cartItem }){
-    const { dispatch } = useCart()
+    const { state : { wishlist },dispatch } = useCart()
     const { user } = useAuth()
-    console.log({cartItem})
+    const navigate = useNavigate()
+    
+    const itemsInWishlist = () => wishlist && wishlist.find(wishlistItem => wishlistItem._id === cartItem._id )
     
     const increaseItemQuantity = async () => {
         try {
@@ -29,17 +31,22 @@ function ShowCart({ cartItem }){
     }
 
     const decreaseItemQuantity = async () => {
-        try {
-            console.log(user._id, cartItem._id)
-            const response = await axios.patch(`https://crickart.herokuapp.com/cart/${user._id}/${cartItem._id}`,
-            {
-                quantity : cartItem.quantity - 1
-            })
-            console.log(response.data)
-            dispatch({ type : "DECREASE__QUANTITY", payload : cartItem })
-        }catch(error){
-            console.log(error)
+        if(!itemsInWishlist()){
+            try {
+                console.log(user._id, cartItem._id)
+                const response = await axios.patch(`https://crickart.herokuapp.com/cart/${user._id}/${cartItem._id}`,
+                {
+                    quantity : cartItem.quantity - 1
+                })
+                console.log(response.data)
+                dispatch({ type : "DECREASE__QUANTITY", payload : cartItem })
+            }catch(error){
+                console.log(error)
+            }
+        }else{
+            console.log("already in wishlist")
         }
+       
     }
 
     const removeItem = async () => {
@@ -50,7 +57,7 @@ function ShowCart({ cartItem }){
         dispatch({ type : "REMOVE__ITEM__FROM__CART", payload : cartItem })
     }
 
-    const wishListToCart = async (e) => {
+    const wishListToCart = async (cartItem) => {
         console.log("clicked")
             try {
               const response = await axios.post("https://crickart.herokuapp.com/wishlist",
@@ -108,11 +115,17 @@ function ShowCart({ cartItem }){
                     className="btn-primary btn__remove btn__bg">
                         Remove
                 </button>
-                <button 
-                    onClick={() => wishListToCart()} 
-                    className="btn-primary btn__bag btn__bg">
-                        Wishlist
+                {!itemsInWishlist() 
+                ?  <button 
+                onClick={() => wishListToCart(cartItem)} 
+                className="btn-primary btn__bag btn__bg">
+                    Wishlist
                 </button>
+                : <button 
+                onClick={() => navigate("/wishlist")} 
+                className="btn-primary btn__bag btn__bg">
+                    Wishlist
+                </button>}
             </div>
 
             </div>

@@ -20,46 +20,17 @@ export default function App() {
   const { state : { products }, dispatch } = useCart()
   const { user } = useAuth()
 
+  useEffect(() => {
+    (async function getItemsInCart(){
+        try{
+            const response = await axios.get(`https://crickart.herokuapp.com/wishlist/${user._id}`)
+            console.log(response)
+        }catch(error){
+            console.log(error)
+        }
+    })()
+},[])
 
-  // useEffect(() => {
-  //   (async function () {
-  //     try {
-  //       const result = await axios.get("https://crickart.herokuapp.com/product");
-  //       dispatch({ type : "SET__PRODUCTS", payload : result.data })
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   })();
-  // }, []);
-
-
-// useEffect(() => {
-//   try {
-//     (async function getItems() {
-//       const res = await axios.get(
-//         "https://evening-woodland-75481.herokuapp.com/wishlist",
-//       );
-//       console.log(res);
-//       res.data.wishlist && setWishlist(res.data.wishlist);
-//     })();
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }, []);
-
-// useEffect(() => {
-//   try {
-//     (async function getItems() {
-//       const res = await axios.get(
-//         "https://evening-woodland-75481.herokuapp.com/cart",
-//       );
-//       console.log(res);
-//       res.data.itemsInCart && setItemsInCart(res.data.itemsInCart);
-//     })();
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }, []);
   return (
     <div className="app">
         <Route path="/" element={<Navbar />} />

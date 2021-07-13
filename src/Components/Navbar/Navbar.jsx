@@ -9,7 +9,7 @@ import { useAuth } from "../../context/authContext"
 
 export default function Navbar (){
     const { state : { cart, wishlist }, dispatch } = useCart()
-    const { user } = useAuth()
+    const { user, setUser } = useAuth()
     const navigate = useNavigate()
     const { state } = useLocation()
 
@@ -18,8 +18,9 @@ export default function Navbar (){
   }, [])
 
     const logout = () => {
+      setUser("")
       localStorage.removeItem('auth')
-      navigate(state?.from ? state.from : "/login" )
+        navigate(state?.from ? state.from : "/login" , { replace : true }) 
     }
     return (
         <header>

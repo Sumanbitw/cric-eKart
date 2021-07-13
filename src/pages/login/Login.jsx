@@ -35,12 +35,14 @@ function Login() {
         <div className="login">
             <div className="login__wrapper">
                 <input
+                type="text"
                 className="login__input login__email" 
                 placeholder="Enter your email" 
                 onChange={(e) => setEmail(e.target.value)}
                 />
                 
                 <input
+                type="password"
                 className="login__input login__password" 
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
