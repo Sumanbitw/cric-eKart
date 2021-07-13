@@ -45,7 +45,7 @@
   .signupInput{
       height: 50px;
       border-radius: 10px;
-      border: 1px solid gray;
+      border: 1px solid #1775ee;
       font-size: 18px;
       padding-left: 20px;
   }
@@ -58,7 +58,7 @@
       height: 50px;
       border-radius: 10px;
       border: none;
-      background-color: teal;
+      background-color: #1775ee;
       color: white;
       font-size: 20px;
       font-weight: 500;
@@ -67,7 +67,7 @@
   
   .signupForgot{
       text-align: center;
-      color: teal;
+      color: #1775ee;
   }
   
   .signupRegisterButton{
@@ -76,8 +76,8 @@
       height: 50px;
       border-radius: 10px;
       border: none;
-      border:1px solid teal;
-      color: teal;
+      border:1px solid #1775ee;
+      color: #1775ee;
       background-color: whitesmoke;
       font-size: 20px;
       font-weight: 500;

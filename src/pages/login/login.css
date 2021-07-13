@@ -25,8 +25,10 @@
     height: 22rem;
     padding: 1.2rem;
     /* background-color: white; */
-    border: 1px solid teal;
+    border: 1px solid #1775ee;
     border-radius: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+
 }
 
 .login__input{
@@ -50,19 +52,19 @@
 }
 
 .primary{
-    background-color: teal;
+    background-color: #1775ee;
     border: none;
     color: whitesmoke;
 }
 
 .secondary{
-    color: teal;
+    color: #1775ee;
     padding: 0.5rem;
-    border:1px solid teal ;
+    border:1px solid #1775ee ;
     background-color: white;
 }
 
 .login__forgot{
     text-align: center;
-    color: teal;
+    color: #1775ee;
 }
