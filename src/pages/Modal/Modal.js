@@ -15,16 +15,7 @@ export default function Modal({showModal, close, wishlistItem}) {
         console.log(response.data)
         dispatch({ type : "REMOVE__ITEM__FROM__WISHLIST", payload : wishlistItem })
     }
-    useEffect(() => {
-        (async function getItemsInCart(){
-            try{
-                const response = await axios.get(`https://crickart.herokuapp.com/wishlist/${user._id}`)
-                console.log(response)
-            }catch(error){
-                console.log(error)
-            }
-        })()
-    },[])
+    
     return (
         <div className={showModal ? "overlay" : "hide__modal"} onClick={close}>
            <div className ={showModal ? "show__modal" : "hide__modal"}>

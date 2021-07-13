@@ -20,17 +20,6 @@ export default function App() {
   const { state : { products }, dispatch } = useCart()
   const { user } = useAuth()
 
-  useEffect(() => {
-    (async function getItemsInCart(){
-        try{
-            const response = await axios.get(`https://crickart.herokuapp.com/wishlist/${user._id}`)
-            console.log(response)
-        }catch(error){
-            console.log(error)
-        }
-    })()
-},[])
-
   return (
     <div className="app">
         <Route path="/" element={<Navbar />} />
