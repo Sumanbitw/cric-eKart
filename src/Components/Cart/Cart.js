@@ -31,7 +31,6 @@ function ShowCart({ cartItem }){
     }
 
     const decreaseItemQuantity = async () => {
-        if(!itemsInWishlist()){
             try {
                 console.log(user._id, cartItem._id)
                 const response = await axios.patch(`https://crickart.herokuapp.com/cart/${user._id}/${cartItem._id}`,
@@ -43,9 +42,6 @@ function ShowCart({ cartItem }){
             }catch(error){
                 console.log(error)
             }
-        }else{
-            console.log("already in wishlist")
-        }
        
     }
 

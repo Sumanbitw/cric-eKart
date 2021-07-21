@@ -34,17 +34,18 @@ function Login() {
     return (
         <div className="login">
             <div className="login__wrapper">
+                {error && <p style={{color:"red"}}>{error}</p>}
                 <input
                 type="text"
                 className="login__input login__email" 
-                placeholder="Enter your email" 
+                placeholder="batman@batman" 
                 onChange={(e) => setEmail(e.target.value)}
                 />
                 
                 <input
                 type="password"
                 className="login__input login__password" 
-                placeholder="Enter your password"
+                placeholder="batman"
                 onChange={(e) => setPassword(e.target.value)}
                 />
                 
@@ -70,8 +71,6 @@ function Login() {
                 </button>
                 </Link>
             </div>
-            
-            {error && <p>{error}</p>}
         
         </div>
     )

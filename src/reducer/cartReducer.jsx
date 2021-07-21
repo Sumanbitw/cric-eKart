@@ -93,7 +93,7 @@ export const reducer = (state, action) => {
         case "REMOVE__ITEM__FROM__WISHLIST" : 
         return {
             ...state,
-            wiahlist : state.wishlist.filter( item => item._id !== action.payload )
+            wishlist : state.wishlist.filter( item => item._id !== action.payload._id )
         }
 
         default :

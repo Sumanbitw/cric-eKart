@@ -38,21 +38,29 @@ function Signup() {
         </div>
         <div className="signupRight">
           <div className="signupBox">
+            {error && (
+            <p className="errorMessage" style={{ color: "red" }}>
+              {error}
+            </p>
+          )}
             <input 
             placeholder="Username" 
             className="signupInput" 
+            type="text"
             onChange={(e) => setName(e.target.value)}
             />
 
             <input 
             placeholder="Email" 
             className="signupInput" 
+            type="text"
             onChange={(e) => setEmail(e.target.value)}
             />
 
             <input 
             placeholder="Password" 
             className="signupInput" 
+            type="password"
             onChange={(e) => setPassword(e.target.value)}
             />
 
@@ -69,11 +77,6 @@ function Signup() {
             >
               Login
             </button>
-            {error && (
-          <p className="errorMessage" style={{ color: "red" }}>
-            {error}
-          </p>
-        )}
           </div>
         </div>
       </div>

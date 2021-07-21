@@ -18,17 +18,6 @@ import { useAuth } from '../../context/authContext'
     console.log({wishlistItem})
 
     const itemsInCart = () => cart.find(cartItem => cartItem._id === wishlistItem._id )
-    console.log(itemsInCart())
-    useEffect(() => {
-        (async function getItemsInCart(){
-            try{
-                const response = await axios.get(`https://crickart.herokuapp.com/wishlist/${user._id}`)
-                console.log(response)
-            }catch(error){
-                console.log(error)
-            }
-        })()
-    },[])
 
     const addToCart = async (e) => {
           if(!itemsInCart()){
@@ -45,8 +34,16 @@ import { useAuth } from '../../context/authContext'
             }
             }
       }  
-    const open = () => setShowModal(true)
-    const close = () => setShowModal(false)
+    // const open = () => setShowModal(true)
+    // const close = () => setShowModal(false)
+
+    const removeItem = async () => {
+        const response = await axios.delete(
+            `https://crickart.herokuapp.com/wishlist/${user._id}/${wishlistItem._id}`
+        )
+        console.log(response.data)
+        dispatch({ type : "REMOVE__ITEM__FROM__WISHLIST", payload : wishlistItem })
+    }
 
     return (
         <div className="wishlist__item-details">
@@ -66,8 +63,8 @@ import { useAuth } from '../../context/authContext'
                 ? <Link to="/cart"><button className="wishlist__btn"><i className="fa fa-shopping-cart"> Go to Bag </i></button></Link>
                 : <button className="wishlist__btn" onClick={addToCart}><i className="fa fa-shopping-cart"> Add to Bag </i></button>      }
                 <ToastContainer />
-                <button onClick={open} className="wishlist__remove">Remove</button>
-                <Modal showModal={showModal} close={close} wishlistItem={wishlistItem}/>
+                <button onClick={removeItem} className="wishlist__remove">Remove</button>
+                {/* <Modal showModal={showModal} close={close} wishlistItem={wishlistItem && wishlistItem}/> */}
                 </div>
                 </div>
                 </div>

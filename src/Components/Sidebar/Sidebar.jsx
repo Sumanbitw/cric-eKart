@@ -17,7 +17,6 @@ function Sidebar({
                 min="100"
                 max="10000"
                 value={maxValue}
-                class="slider"
                 id="myRange"
                 className="sidebar__input"
                 onChange={(e) => {
