@@ -16,13 +16,14 @@ function Cart() {
     const { state : { cart }  } = useCart()
     const [product, setProduct] = useState({ price : 0})
     const [status, setStatus] = useState(false)
+    const [loading, setLoading] = useState(true)
     const { user } = useAuth()
 
     useEffect(() => {
         (async function getItemsInCart(){
             try{
                 const response = await axios.get(`https://crickart.herokuapp.com/cart/${user._id}`)
-                console.log(response)
+                setLoading(false)
             }catch(error){
                 console.log(error)
             }
@@ -54,6 +55,7 @@ function Cart() {
               console.log("RESPONSE ", response);
               const status = response.status;
               setStatus(true)
+              setLoading(true)
             })
             .catch(error => console.log(error));
     }
@@ -61,14 +63,24 @@ function Cart() {
     
     return (
         <>
-        <div className="cart__products">
-            <h1>Welcome {user?.name}</h1>
+        {loading 
+        ? (<Loader
+            type="ThreeDots"
+            color="#2563EB"
+            secondaryColor="grey"
+            height={100}
+            width={100}
+            timeout={1000}/>)
+
+        :    (<div className="cart__products">
+             <h1>Welcome {user?.name}</h1>
                 {(cart && cart.length === 0) 
                 ? <div className="cart__items">
                     <div className="img"></div>
                         <p style={{fontSize:"20px",margin:"1rem",color:"grey"}}>
                             Add items in cart
                         </p>
+
                     </div> 
                 : <p style={{fontSize:"25px"}}>
                     My Cart :{cart && cart.length}
@@ -105,7 +117,14 @@ function Cart() {
                 </div>
                 }
             </div>
-           
+            )
+           }
+           {status && <div className="payment__container">
+                <div className="payment">Payment Successfull</div>
+                <Link to="/products">
+               <button className="btn-secondary">Add Items</button>
+               </Link>
+               </div>}
         </>
     )
 }

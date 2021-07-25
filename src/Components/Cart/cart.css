@@ -91,7 +91,18 @@ body{
     border-radius: 0.2rem;
     cursor: pointer;
 }
-
+.payment__container{
+    
+}
+.payment{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color:var(--bg-blue);
+    font-size: 25px;
+    font-weight: 500;
+}
 
 @media screen and (max-width:800px){
     .cart__container{

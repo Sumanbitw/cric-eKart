@@ -52,7 +52,6 @@ function ProductListing() {
           maxValue
         })
 
-        console.log(filteredData && filteredData)
   
     return (
       <>
