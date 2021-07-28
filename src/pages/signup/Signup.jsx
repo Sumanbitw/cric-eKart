@@ -51,7 +51,7 @@ function Signup() {
             />
 
             <input 
-            placeholder="Email" 
+            placeholder="abc@gmail.com" 
             className="signupInput" 
             type="text"
             onChange={(e) => setEmail(e.target.value)}
