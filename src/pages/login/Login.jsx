@@ -7,19 +7,15 @@ import { Link } from "react-router-dom"
 import { useAuth } from '../../context/authContext'
 
 function Login() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("batman@gmail.com")
+    const [password, setPassword] = useState("batman@12")
     const [error, setError] = useState("")
     const {user, loginUserWithCredentials} = useAuth()
     const navigate = useNavigate()
     const { state } = useLocation()
 
-    console.log(state)
-    useEffect(() => {
-        user && navigate("/", { replace : true })
-    }, [])
-
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault()
         const { message, success } = await loginUserWithCredentials(
             email,
             password
@@ -30,6 +26,10 @@ function Login() {
             setError(message)
         }
     }
+
+    useEffect(() => {
+        user && navigate("/", { replace : true })
+    }, [])
    
     return (
         <div className="login">
@@ -38,20 +38,20 @@ function Login() {
                 <input
                 type="text"
                 className="login__input login__email" 
-                placeholder="batman@batman" 
+                placeholder="batman@gmail.com" 
                 onChange={(e) => setEmail(e.target.value)}
                 />
                 
                 <input
                 type="password"
                 className="login__input login__password" 
-                placeholder="batman"
+                placeholder="batman@12"
                 onChange={(e) => setPassword(e.target.value)}
                 />
                 
                 <button
                 className="login__btn primary"
-                onClick={handleLogin}
+                onClick={(e) => handleLogin(e)}
                 >
                     Login
                 </button>

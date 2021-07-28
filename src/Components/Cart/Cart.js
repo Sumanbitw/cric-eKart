@@ -1,6 +1,6 @@
 import React ,{ useEffect,useState } from 'react'
 import { useCart } from '../../context/cartContext'
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import axios from "axios"
 import "./cart.module.css"
 import Loader from "react-loader-spinner"
@@ -17,6 +17,7 @@ function Cart() {
     const [product, setProduct] = useState({ price : 0})
     const [status, setStatus] = useState(false)
     const [loading, setLoading] = useState(true)
+    const navigate = useNavigate()
     const { user } = useAuth()
 
     useEffect(() => {
@@ -80,7 +81,7 @@ function Cart() {
                         <p style={{fontSize:"20px",margin:"1rem",color:"grey"}}>
                             Add items in cart
                         </p>
-
+                        <button className="btn-secondary" onClick={() => navigate("/products")}>Add Items</button>
                     </div> 
                 : <p style={{fontSize:"25px"}}>
                     My Cart :{cart && cart.length}

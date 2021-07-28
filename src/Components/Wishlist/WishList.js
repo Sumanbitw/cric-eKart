@@ -74,7 +74,7 @@ import { useAuth } from '../../context/authContext'
 function WishList() {
     const {state : { wishlist }} = useCart()
     const { user } = useAuth()
-    console.log({ wishlist })
+    const navigate = useNavigate()
 
     useEffect(() => {
         (async function getItemsInCart(){
@@ -93,7 +93,9 @@ function WishList() {
         ? <div className="wishlist__items wishlist">
             <p style={{fontSize:"15px",margin:"1rem",color:"grey"}}>
                 WishList is Empty
-            </p></div> 
+            </p>
+            <button className="wishlist__btn" onClick={() => navigate("/products")}>Add Items</button>
+            </div> 
         : <p style={{fontSize:"25px",margin:"1rem"}}>
             Wishlist : ({wishlist && wishlist.length})  
           </p>}
