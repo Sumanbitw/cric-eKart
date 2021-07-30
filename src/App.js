@@ -15,10 +15,22 @@ import { PrivateRoute } from "./api/PrivateRoute/PrivateRoute"
 import { useAuth } from "./context/authContext"
 
 export default function App() {
-  const { setWishlist } = useCart()
-  const { setItemsInCart } = useCart()
   const { state : { products }, dispatch } = useCart()
   const { user } = useAuth()
+
+  useEffect(() => {
+    (async function () {
+      try {
+        const result = await axios.get(
+          "https://crickart.herokuapp.com/product"
+        );
+        console.log(result.data)
+        dispatch({ type: "SET__PRODUCTS", payload: result.data });
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, [dispatch]);
 
   return (
     <div className="app">

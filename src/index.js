@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 // import setupMockServer from "./api/mock.server";
-import 'font-awesome/css/font-awesome.min.css';
-import {BrowserRouter as Router} from "react-router-dom"
+import "font-awesome/css/font-awesome.min.css";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import { CartProvider } from "../src/context/cartContext";
 import { AuthProvider } from "./context/authContext";
@@ -22,5 +22,3 @@ ReactDOM.render(
   </React.StrictMode>,
   rootElement
 );
-
-

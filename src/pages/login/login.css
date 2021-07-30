@@ -1,71 +1,70 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.login{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5rem;
-    /* width: 100vw;  */
-    overflow-x: hidden;
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5rem;
+  /* width: 100vw;  */
+  overflow-x: hidden;
 }
 
-.login__container{
-    display: flex;
-    /* width: 70%;
+.login__container {
+  display: flex;
+  /* width: 70%;
     height: 70%;  */
 }
 
-.login__wrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 22rem;
-    padding: 1.2rem;
-    /* background-color: white; */
-    border: 1px solid #1775ee;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-
+.login__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 22rem;
+  padding: 1.2rem;
+  /* background-color: white; */
+  border: 1px solid #1775ee;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-.login__input{
-    height: 3.12rem;
-    border-radius: 10px;
-    border: 1px solid black;
-    padding-left: 1.2rem;
-    font-size: 18px;
+.login__input {
+  height: 3.12rem;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding-left: 1.2rem;
+  font-size: 18px;
 }
 
-.login__input:focus{
-    outline: none;
+.login__input:focus {
+  outline: none;
 }
 
-.login__btn{
-    height: 2.3rem;
-    font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 10px;
+.login__btn {
+  height: 2.3rem;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
 }
 
-.primary{
-    background-color: #1775ee;
-    border: none;
-    color: whitesmoke;
+.primary {
+  background-color: #1775ee;
+  border: none;
+  color: whitesmoke;
 }
 
-.secondary{
-    color: #1775ee;
-    padding: 0.5rem;
-    border:1px solid #1775ee ;
-    background-color: white;
+.secondary {
+  color: #1775ee;
+  padding: 0.5rem;
+  border: 1px solid #1775ee;
+  background-color: white;
 }
 
-.login__forgot{
-    text-align: center;
-    color: #1775ee;
+.login__forgot {
+  text-align: center;
+  color: #1775ee;
 }
