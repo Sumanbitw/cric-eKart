@@ -92,11 +92,11 @@ function Cart() {
               </button>
             </div>
           ) : (
-            <p style={{ fontSize: "25px" }}>My Cart :{cart && cart.length}</p>
+            <p style={{ fontSize: "25px" }}>My Cart :{cart.length && cart.length}</p>
           )}
 
           <div className="cart__header">
-            {cart &&
+            {cart.length!==0 &&
               cart.map((cartItem) => (
                 <ul>
                   <ShowCart cartItem={cartItem} status={status} />

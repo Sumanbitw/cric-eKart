@@ -27,6 +27,18 @@ function Login() {
     }
   };
 
+  const handleGuestLogin = async (e) => {
+    e.preventDefault();
+    const { message, success } = await loginUserWithCredentials(
+      "batman@gmail.com",
+      "batman@12"
+    );
+    if(success) {
+      navigate(state?.from ? state?.from : "/" , { replace : true });
+    } else { 
+      setError(message)
+    }
+  }
   useEffect(() => {
     user && navigate("/", { replace: true });
   }, []);
@@ -51,6 +63,10 @@ function Login() {
 
         <button className="login__btn primary" onClick={(e) => handleLogin(e)}>
           Login
+        </button>
+
+        <button className="login__btn primary" onClick={(e) => handleGuestLogin(e)}>
+          Login with guest user
         </button>
 
         <span className="login__forgot">Forgot Password</span>
