@@ -56,7 +56,7 @@ function Home() {
     },
     {
       cid: 8,
-      categoryName: "kit",
+      categoryName: "accessories",
       categoryImage:
         "https://www.onlinecricstore.com/media/wysiwyg/home_category/cric-8.jpg",
       alt: "cricket kit",

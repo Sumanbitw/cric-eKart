@@ -20,7 +20,7 @@ export function CartProvider({ children }) {
     showInventoryAll: true,
     showFastDeliveryOnly: false,
     sortBy: null,
-    maxValue: 10000,
+    maxValue: 6300,
     categories : [],
     ratings : [],
   };

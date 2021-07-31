@@ -69,17 +69,16 @@ export const reducer = (state, action) => {
       };
 
     case "TOGGLE__CATEGORY":
-      // console.log(action.payload)
-      // return state.categories.includes(action.payload)
-      // ? {
-      //   ...state,
-      //   categories : state.categories.filter(item => item !== action.payload)
-      // }
-      // : {
-      //   ...state,
-      //   categories : [...state.categories, action.payload]
-      // }
-    
+      return state.categories.includes(action.payload)
+      ? {
+        ...state,
+        categories : state.categories.filter(item => item !== action.payload)
+      }
+      : {
+        ...state,
+        categories : [action.payload]
+      }
+      
     case "TOGGLE__RATINGS":
      
       return state.ratings.includes(action.payload)
@@ -133,7 +132,7 @@ export const reducer = (state, action) => {
         showInventoryAll: true,
         showFastDeliveryOnly: false,
         sortBy: null,
-        maxValue: 10000,
+        maxValue: 6300,
         categories : [],
         ratings : [],
 
